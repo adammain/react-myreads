@@ -7,13 +7,28 @@ class Book extends Component {
     book: PropTypes.object.isRequired
   }
 
+  renderAuthors(authors) {
+    return (
+      authors.map((author, index) => (
+        <div key={index} className="book-authors">{author}</div>
+      ))
+    )
+  }
+
   render() {
     const { book } = this.props
-    console.log(book)
+    // console.log(book)
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+book.imageLinks.thumbnail+'")' }}></div>
+          <div
+            className="book-cover"
+            style={{
+              width: 128,
+              height: 193,
+              backgroundImage: `url(${book.imageLinks.thumbnail})`
+            }}>
+          </div>
           <div className="book-shelf-changer">
             <select>
               <option value="none" disabled>Move to...</option>
@@ -25,10 +40,7 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        {book.authors.map((author, index) => (
-          <div key={index} className="book-authors">{author}</div>
-        ))
-        }
+        { this.renderAuthors(book.authors) }
       </div>
     )
   }

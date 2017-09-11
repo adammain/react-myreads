@@ -10,7 +10,6 @@ class BookShelf extends Component {
   }
 
   getShelfTitle(shelf) {
-    console.log(shelf)
     if (shelf === "currentlyReading")
       return "Currently Reading"
     else if (shelf === "wantToRead")
