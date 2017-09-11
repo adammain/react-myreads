@@ -26,12 +26,11 @@ class Library extends Component {
           <div>
             {this.state.shelves.map((shelfTitle, index) => (
               <BookShelf
-                key={index}
-                shelf={shelfTitle}
-                books={this.props.books.filter((book) => book.shelf === shelfTitle)}
+                key={ index }
+                shelf={ shelfTitle }
+                books={ this.props.books.filter((book) => book.shelf === shelfTitle) }
               />
-            ))
-            }
+            ))}
           </div>
         </div>
         <div className="open-search">

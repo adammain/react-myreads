@@ -10,7 +10,7 @@ class Book extends Component {
   renderAuthors(authors) {
     return (
       authors.map((author, index) => (
-        <div key={index} className="book-authors">{author}</div>
+        <div key={ index } className="book-authors">{ author }</div>
       ))
     )
   }
@@ -26,7 +26,7 @@ class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${book.imageLinks.thumbnail})`
+              backgroundImage: `url(${ book.imageLinks.thumbnail })`
             }}>
           </div>
           <div className="book-shelf-changer">
@@ -39,7 +39,7 @@ class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{book.title}</div>
+        <div className="book-title">{ book.title }</div>
         { this.renderAuthors(book.authors) }
       </div>
     )

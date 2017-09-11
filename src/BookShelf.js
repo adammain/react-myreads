@@ -23,8 +23,8 @@ class BookShelf extends Component {
   renderBook() {
     return (
       this.props.books.map((book, index) => (
-        <li key={index}>
-          <Book book={book} />
+        <li key={ index }>
+          <Book book={ book } />
         </li>
       ))
     )
