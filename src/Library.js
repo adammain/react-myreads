@@ -24,11 +24,11 @@ class Library extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {this.state.shelves.map((shelf) => (
+            {this.state.shelves.map((shelfTitle, index) => (
               <BookShelf
-                key={shelf}
-                shelf={shelf}
-                books={this.props.books.filter((book) => book.shelf === shelf)}
+                key={index}
+                shelf={shelfTitle}
+                books={this.props.books.filter((book) => book.shelf === shelfTitle)}
               />
             ))
             }
