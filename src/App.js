@@ -1,8 +1,8 @@
 import React from "react"
-import { BrowserRouter, Route, Link } from "react-router-dom"
+import { Route } from "react-router-dom"
 import * as BooksAPI from "./BooksAPI"
 import "./App.css"
-import MainBookshelf from "./MainBookshelf"
+import Library from "./Library"
 import SearchNewBook from "./SearchNewBook"
 
 class BooksApp extends React.Component {
@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <MainBookshelf />
+          <Library />
         )}/>
         <Route path="/search-new" render={() => (
           <SearchNewBook />
