@@ -1,41 +1,36 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Route, Link } from "react-router-dom"
+import * as _ from "lodash"
+import * as BooksAPI from "./BooksAPI"
 import Book from "./Book"
 
 class BookShelf extends Component {
   static propTypes = {
     shelf: PropTypes.string.isRequired,
-    books: PropTypes.array
+    books: PropTypes.array,
+    shelfBooks: PropTypes.array
   }
 
-  getShelfTitle(shelf) {
-    if (shelf === "currentlyReading")
-      return "Currently Reading"
-    else if (shelf === "wantToRead")
-      return "Want to Read"
-    else if (shelf === "read")
-      return "Read"
-    else
-      return "Unknown"
+  toTitleCase(str) {
+    return _.startCase(str)
   }
 
   renderBook() {
     return (
       this.props.books.map((book, index) => (
         <li key={ index }>
-          <Book book={ book } />
+          <Book book={ book } onChangeShelf={ this.props.onChangeShelf } />
         </li>
       ))
     )
   }
 
   render() {
-    // console.log(this.props.books, this.props.shelf)
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">
-          { this.getShelfTitle(this.props.shelf) }
+          { this.toTitleCase(this.props.shelf) }
       </h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
