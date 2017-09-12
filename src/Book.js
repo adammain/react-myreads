@@ -1,10 +1,17 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import { Route, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
+import Select from 'react-select';
 
 class Book extends Component {
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
+  }
+
+  handleChange = (e) => {
+    let selectedShelf = e.target.value
+    this.props.onChangeShelf(this.props.book, selectedShelf)
   }
 
   renderAuthors(authors) {
@@ -16,7 +23,7 @@ class Book extends Component {
   }
 
   render() {
-    const { book } = this.props
+    const { book, onChangeShelf } = this.props
     // console.log(book)
     return (
       <div className="book">
@@ -30,7 +37,7 @@ class Book extends Component {
             }}>
           </div>
           <div className="book-shelf-changer">
-            <select>
+            <select value={book.shelf} onChange={this.handleChange}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>

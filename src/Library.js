@@ -5,16 +5,26 @@ import BookShelf from "./BookShelf"
 
 class Library extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.object.isRequired
   }
 
-  state = {
-    shelves: [
-      "currentlyReading",
-      "wantToRead",
-      "read"
-    ]
+  renderBookShelf() {
+    let shelves = this.props.shelves
+    return (
+      Object.keys(shelves).map((shelf, index) => (
+        <BookShelf
+          key={ index }
+          books={ this.props.books.filter((book) => book.shelf === shelf) }
+          shelf={ shelf }
+          onChangeShelf={ this.props.onChangeShelf }
+        />
+      ))
+    )
   }
+
+  // TODO: ABILITY TO CHANGE SHELF NAMES
+  // BUG: SHELF NAME DOESN'T APPEAR AFTER UPDATE IF IT WASN'T THERE ON PAGE LOAD 
 
   render() {
     return (
@@ -24,13 +34,9 @@ class Library extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {this.state.shelves.map((shelfTitle, index) => (
-              <BookShelf
-                key={ index }
-                shelf={ shelfTitle }
-                books={ this.props.books.filter((book) => book.shelf === shelfTitle) }
-              />
-            ))}
+            {
+              this.renderBookShelf()
+            }
           </div>
         </div>
         <div className="open-search">
