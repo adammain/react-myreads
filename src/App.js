@@ -31,8 +31,14 @@ class BooksApp extends React.Component {
   getBookShelves(books) {
     let shelves = {}
 
+    // Hardcode project required shelves
+    let shelfTitles = ["currentlyReading", "wantToRead", "read"]
+
     // Get all unique shelf titles from list of books (for dynamic shelf names)
-    let shelfTitles = [...new Set(books.map(book => book.shelf))];
+    let newShelfTitles = [...new Set(books.map(book => book.shelf))]
+    newShelfTitles.map((title) => (
+      shelfTitles.indexOf(title) === -1 ? shelfTitles.push(title) : console.log("This shelf already exists")
+    ))
 
     // Create shelves object. Key: ShelfTitle, Value: Array(Books)
     shelfTitles.forEach((shelf) => {
@@ -46,7 +52,7 @@ class BooksApp extends React.Component {
   // Update a book's shelf definition
   updateShelf = (book, shelf) => {
     // Find Index of book to be updated
-    const bookIndex = this.state.books.findIndex((b => b.id == book.id));
+    const bookIndex = this.state.books.findIndex((b => b.id === book.id));
 
     // Make a deep copy of book to be updated (for state immutability)
     let _bookCopy = _.merge({}, book)
@@ -57,21 +63,16 @@ class BooksApp extends React.Component {
     // Update DB
     BooksAPI.update(_bookCopy, shelf).then(res => {
       // Update state
-
-      if (bookIndex != -1)
+      if (bookIndex !== -1)
         this.setState(state => ({
           books: state.books.map((b) => (
             b.id === book.id ? _bookCopy : b
           ))
         }))
       else
-          this.setState(state => ({
-            books: state.books.concat([ _bookCopy ])
-          }))
-
-      // Update book shelf titles
-      // BUG: Page doesn't add unseen shelf titles without page reload
-      this.getBookShelves(this.state.books)
+        this.setState(state => ({
+          books: state.books.concat([ _bookCopy ])
+        }))
     })
   }
 
