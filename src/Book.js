@@ -26,7 +26,7 @@ class Book extends Component {
   render() {
     const { book, onChangeShelf } = this.props
     let thumbnail = ""
-console.log("BOOK.js SHELF: ", book.shelf)
+
     if (book.imageLinks)
       thumbnail = book.imageLinks.thumbnail
     else
