@@ -6,7 +6,8 @@ import BookShelf from "./BookShelf"
 class Library extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
-    shelves: PropTypes.object.isRequired
+    shelves: PropTypes.object.isRequired,
+    onSelectShelf: PropTypes.func
   }
 
   renderBookShelf() {
@@ -17,14 +18,14 @@ class Library extends Component {
           key={ index }
           books={ this.props.books.filter((book) => book.shelf === shelf) }
           shelf={ shelf }
-          onChangeShelf={ this.props.onChangeShelf }
+          onSelectShelf={ this.props.onSelectShelf }
         />
       ))
     )
   }
 
   // TODO: ABILITY TO CHANGE SHELF NAMES
-  // BUG: SHELF NAME DOESN'T APPEAR AFTER UPDATE IF IT WASN'T THERE ON PAGE LOAD 
+  // BUG: SHELF NAME DOESN'T APPEAR AFTER UPDATE IF IT WASN'T THERE ON PAGE LOAD
 
   render() {
     return (

@@ -6,12 +6,12 @@ import Select from 'react-select';
 class Book extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
-    onChangeShelf: PropTypes.func
+    onSelectShelf: PropTypes.func
   }
 
   handleChange = (e) => {
     let selectedShelf = e.target.value
-    this.props.onChangeShelf(this.props.book, selectedShelf)
+    this.props.onSelectShelf(this.props.book, selectedShelf)
   }
 
   renderAuthors(authors) {
@@ -26,7 +26,7 @@ class Book extends Component {
   render() {
     const { book, onChangeShelf } = this.props
     let thumbnail = ""
-
+console.log("BOOK.js SHELF: ", book.shelf)
     if (book.imageLinks)
       thumbnail = book.imageLinks.thumbnail
     else
@@ -44,7 +44,7 @@ class Book extends Component {
             }}>
           </div>
           <div className="book-shelf-changer">
-            <select value={book.shelf} onChange={this.handleChange}>
+            <select value={ book.shelf ? book.shelf : "none" } onChange={ this.handleChange }>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>

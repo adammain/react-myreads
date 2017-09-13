@@ -6,14 +6,15 @@ import Book from "./Book"
 
 class Search extends Component {
   static propTypes = {
-    books: PropTypes.array,
-    onSelectBook: PropTypes.func
+    onSelectShelf: PropTypes.func.isRequired
   }
 
   state = {
     query: "",
     results: []
   }
+
+  // TODO: Add book to library shelf functionality
 
   updateQuery = (query) => {
     const maxResults = 20
@@ -40,7 +41,7 @@ class Search extends Component {
       return (
         results.map((result, index) => (
           <li key={ index }>
-            <Book book={ result } />
+            <Book book={ result } onSelectShelf={ this.props.onSelectShelf } />
           </li>
         ))
       )
