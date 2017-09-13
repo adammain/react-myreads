@@ -6,7 +6,7 @@ import Select from 'react-select';
 class Book extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
-    onChangeShelf: PropTypes.func.isRequired
+    onChangeShelf: PropTypes.func
   }
 
   handleChange = (e) => {
@@ -15,16 +15,23 @@ class Book extends Component {
   }
 
   renderAuthors(authors) {
-    return (
-      authors.map((author, index) => (
-        <div key={ index } className="book-authors">{ author }</div>
-      ))
-    )
+    if (authors)
+      return (
+        authors.map((author, index) => (
+          <div key={ index } className="book-authors">{ author }</div>
+        ))
+      )
   }
 
   render() {
     const { book, onChangeShelf } = this.props
-    // console.log(book)
+    let thumbnail = ""
+
+    if (book.imageLinks)
+      thumbnail = book.imageLinks.thumbnail
+    else
+      thumbnail = 'icons/no_cover_thumb.gif'
+
     return (
       <div className="book">
         <div className="book-top">
@@ -33,7 +40,7 @@ class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${ book.imageLinks.thumbnail })`
+              backgroundImage: `url(${ thumbnail })`
             }}>
           </div>
           <div className="book-shelf-changer">

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import * as BooksAPI from "./BooksAPI"
+import Book from "./Book"
 
 class Search extends Component {
   static propTypes = {
@@ -18,13 +19,32 @@ class Search extends Component {
     const maxResults = 20
     this.setState({ query: query })
 
-    BooksAPI.search(query, maxResults).then((res) => {
-      this.setState({ results: res })
-    })
+    // Get search results only if query has a length
+    query.length && (
+      BooksAPI.search(query, maxResults).then((res) => {
+        this.setState({ results: res })
+      })
+    )
   }
 
   clearQuery = () => {
     this.setState({ query: "" })
+  }
+
+  renderResults() {
+    const results = this.state.results
+
+    if (results["error"] === "empty query")
+      return "No matching results"
+    else if (results) {
+      return (
+        results.map((result, index) => (
+          <li key={ index }>
+            <Book book={ result } />
+          </li>
+        ))
+      )
+    }
   }
 
   render() {
@@ -42,7 +62,9 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+            { this.renderResults() }
+          </ol>
         </div>
       </div>
     )
