@@ -5,7 +5,7 @@ import * as _ from "lodash"
 import * as BooksAPI from "./BooksAPI"
 import "./App.css"
 import Library from "./Library"
-import SearchNewBook from "./SearchNewBook"
+import Search from "./Search"
 
 class BooksApp extends React.Component {
   state = {
@@ -23,7 +23,7 @@ class BooksApp extends React.Component {
   // Initializes books to approproate shelf - allows for dynamic shelf naming
   getBookShelves(books) {
     let shelves = {}
-    
+
     // Get all unique shelf titles from list of books
     let shelfTitles = [...new Set(books.map(book => book.shelf))];
 
@@ -72,7 +72,7 @@ class BooksApp extends React.Component {
           />
         )}/>
         <Route path="/search-new" render={() => (
-          <SearchNewBook />
+          <Search />
         )}/>
       </div>
     )
