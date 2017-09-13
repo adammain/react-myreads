@@ -22,9 +22,11 @@ class BooksApp extends React.Component {
 
   // Initializes books to approproate shelf - allows for dynamic shelf naming
   getBookShelves(books) {
+    let shelves = {}
+    
     // Get all unique shelf titles from list of books
     let shelfTitles = [...new Set(books.map(book => book.shelf))];
-    let shelves = {}
+
     // Create shelves object. Key: ShelfTitle, Value: Array(Books)
     shelfTitles.forEach((shelf) => {
       let booksOnShelf = books.filter((book) => book.shelf === shelf)
@@ -34,7 +36,7 @@ class BooksApp extends React.Component {
     return shelves
   }
 
-  // Update a book's shelf
+  // Update a book's shelf definition
   updateShelf = (book, shelf) => {
     // Find Index of book to be updated
     const bookIndex = this.state.books.findIndex((b => b.id == book.id));
@@ -42,7 +44,7 @@ class BooksApp extends React.Component {
     // Deep copy book to be changed (for state immutability)
     let _bookCopy = _.merge({}, book)
 
-    // Update shelf of book
+    // Update book copy shelf definition
     _bookCopy.shelf = shelf
 
     // Update DB
