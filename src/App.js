@@ -72,20 +72,20 @@ class BooksApp extends React.Component {
 
     // Update DB
     BooksAPI.update(_bookCopy, shelf).then(res => {
-      // Update state
+      // Update state after removing book or changing shelf
       if (bookIndex !== -1) {
         this.setState(state => ({
           books: state.books.map((b) => (
             b.id === book.id ? _bookCopy : b
           ))
         }))
-        // Notification for changing book's shelf or removing from library
-        if (shelf === "none")
-          this._addNotification(`Removed ${book.title} from library.`)
-        else
-          this._addNotification(`Successfully added book to "${helper.toTitleCase(shelf)}".`)
+        // Notification for removing book from library (shelf=none) or changing shelf
+        shelf === "none"
+        ?  this._addNotification(`Removed ${book.title} from library.`)
+        :  this._addNotification(`Successfully added book to "${helper.toTitleCase(shelf)}".`)
       }
       else {
+        // Update state after adding book to library
         this.setState(state => ({
           books: state.books.concat([ _bookCopy ])
         }))
