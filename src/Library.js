@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
 import { Route, Link } from "react-router-dom"
+import Header from "./Header"
 import BookShelf from "./BookShelf"
 
 class Library extends Component {
@@ -24,15 +25,10 @@ class Library extends Component {
     )
   }
 
-  // TODO: ABILITY TO CHANGE SHELF NAMES
-  // BUG: SHELF NAME DOESN'T APPEAR AFTER UPDATE IF IT WASN'T THERE ON PAGE LOAD
-
   render() {
     return (
       <div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
+        <Header title="MyReads" />
         <div className="list-books-content">
           <div>
             {

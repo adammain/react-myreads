@@ -6,12 +6,13 @@ import NotificationSystem from "react-notification-system"
 import * as BooksAPI from "./BooksAPI"
 import * as helper from "./util/helpers"
 import "./App.css"
+import Header from "./Header"
 import Library from "./Library"
 import Search from "./Search"
 
-// TODO: Add notifications - COMPLETE
+// TODO: Add notifications -DONE
 // TODO: Add ability to change shelf titles
-// TODO: Add thumbs up/down ratings
+// TODO: Add thumbs up/down ratings -
 // TODO: Add Netflix styling?
 // TODO: Add Amazon Ratings (API)?
 // TODO: Add links for book details?
@@ -28,7 +29,7 @@ class BooksApp extends React.Component {
     this._notificationSystem.addNotification({
       message: message,
       level: 'success',
-      position: 'tc'
+      position: 'bc'
     });
   }
 
@@ -45,7 +46,7 @@ class BooksApp extends React.Component {
   getBookShelves(books) {
     let shelves = {}
 
-    // Hardcode project required shelves then search for unique shelf names
+    // Hardcode project required shelves and search for other unique shelf names
     let shelfTitles = ["currentlyReading", "wantToRead", "read"]
     let newShelfTitles = [...new Set(books.map(book => book.shelf))]
     newShelfTitles.map((title) => (
@@ -82,7 +83,7 @@ class BooksApp extends React.Component {
         // Notification for removing book from library (shelf=none) or changing shelf
         shelf === "none"
         ?  this._addNotification(`Removed ${book.title} from library.`)
-        :  this._addNotification(`Successfully added book to "${helper.toTitleCase(shelf)}".`)
+        :  this._addNotification(`Successfully added book to Shelf - "${helper.toTitleCase(shelf)}".`)
       }
       else {
         // Update state after adding book to library
@@ -99,11 +100,14 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <Library
-            books={ this.state.books }
-            shelves={ this.state.shelves }
-            onSelectShelf={ this.updateShelf }
-          />
+          <div>
+            <Header title="Main" />
+            <Library
+              books={ this.state.books }
+              shelves={ this.state.shelves }
+              onSelectShelf={ this.updateShelf }
+            />
+          </div>
         )}/>
         <Route path="/search-new" render={({ history }) => (
           <Search
