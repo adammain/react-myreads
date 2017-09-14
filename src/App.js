@@ -2,12 +2,14 @@ import React from "react"
 import { Route } from "react-router-dom"
 import "react-select/dist/react-select.css"
 import * as _ from "lodash"
+import NotificationSystem from "react-notification-system"
 import * as BooksAPI from "./BooksAPI"
+import * as helper from "./util/helpers"
 import "./App.css"
 import Library from "./Library"
 import Search from "./Search"
 
-// TODO: Add notifications
+// TODO: Add notifications - COMPLETE
 // TODO: Add ability to change shelf titles
 // TODO: Add thumbs up/down ratings
 // TODO: Add Netflix styling?
@@ -20,7 +22,19 @@ class BooksApp extends React.Component {
     shelves: {}
   }
 
+  _notificationSystem = null
+
+  _addNotification = (message) => {
+    this._notificationSystem.addNotification({
+      message: message,
+      level: 'success',
+      position: 'tc'
+    });
+  }
+
   componentDidMount() {
+    this._notificationSystem = this.refs.notificationSystem;
+
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
       this.setState({ shelves: this.getBookShelves(this.state.books) })
@@ -31,10 +45,8 @@ class BooksApp extends React.Component {
   getBookShelves(books) {
     let shelves = {}
 
-    // Hardcode project required shelves
+    // Hardcode project required shelves then search for unique shelf names
     let shelfTitles = ["currentlyReading", "wantToRead", "read"]
-
-    // Get all unique shelf titles from list of books (for dynamic shelf names)
     let newShelfTitles = [...new Set(books.map(book => book.shelf))]
     newShelfTitles.map((title) => (
       shelfTitles.indexOf(title) === -1 ? shelfTitles.push(title) : console.log("This shelf already exists")
@@ -54,25 +66,32 @@ class BooksApp extends React.Component {
     // Find Index of book to be updated
     const bookIndex = this.state.books.findIndex((b => b.id === book.id));
 
-    // Make a deep copy of book to be updated (for state immutability)
+    // Make a deep copy of book, update shelf definition (for state immutability)
     let _bookCopy = _.merge({}, book)
-
-    // Update book copy shelf definition (ex. read -> wantToRead)
     _bookCopy.shelf = shelf
 
     // Update DB
     BooksAPI.update(_bookCopy, shelf).then(res => {
       // Update state
-      if (bookIndex !== -1)
+      if (bookIndex !== -1) {
         this.setState(state => ({
           books: state.books.map((b) => (
             b.id === book.id ? _bookCopy : b
           ))
         }))
-      else
+        // Notification for changing book's shelf or removing from library
+        if (shelf === "none")
+          this._addNotification(`Removed ${book.title} from library.`)
+        else
+          this._addNotification(`Successfully added book to "${helper.toTitleCase(shelf)}".`)
+      }
+      else {
         this.setState(state => ({
           books: state.books.concat([ _bookCopy ])
         }))
+        // Notification for adding book to library
+        this._addNotification(`Successfully added ${book.title} to your libraries "${helper.toTitleCase(shelf)}" shelf.`)
+      }
     })
   }
 
@@ -94,6 +113,7 @@ class BooksApp extends React.Component {
             }}
           />
         )}/>
+        <NotificationSystem ref="notificationSystem" />
       </div>
     )
   }

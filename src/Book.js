@@ -27,10 +27,11 @@ class Book extends Component {
     const { book, onChangeShelf } = this.props
     let thumbnail = ""
 
+    // If no book cover thumbnail exists, use default
     if (book.imageLinks)
       thumbnail = book.imageLinks.thumbnail
     else
-      thumbnail = 'icons/no_cover_thumb.gif'
+      thumbnail = "./icons/no_cover_thumb.gif"
 
     return (
       <div className="book">
