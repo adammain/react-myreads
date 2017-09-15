@@ -1,8 +1,5 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import { Link } from "react-router-dom"
-
-import * as BooksAPI from "./BooksAPI"
 
 class Book extends Component {
   static propTypes = {
@@ -25,7 +22,7 @@ class Book extends Component {
   }
 
   render() {
-    const { book, onChangeShelf } = this.props
+    const { book } = this.props
     let thumbnail = ""
 
     // If no book cover thumbnail exists, use default
