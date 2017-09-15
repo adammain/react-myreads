@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import Select from 'react-select';
+
+import * as BooksAPI from "./BooksAPI"
 
 class Book extends Component {
   static propTypes = {

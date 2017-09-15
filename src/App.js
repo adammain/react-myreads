@@ -1,6 +1,5 @@
 import React from "react"
 import { Route } from "react-router-dom"
-import "react-select/dist/react-select.css"
 import * as _ from "lodash"
 import NotificationSystem from "react-notification-system"
 import * as BooksAPI from "./BooksAPI"
@@ -50,7 +49,7 @@ class BooksApp extends React.Component {
     let shelfTitles = ["currentlyReading", "wantToRead", "read"]
     let newShelfTitles = [...new Set(books.map(book => book.shelf))]
     newShelfTitles.map((title) => (
-      shelfTitles.indexOf(title) === -1 ? shelfTitles.push(title) : console.log("This shelf already exists")
+      shelfTitles.indexOf(title) === -1 ? shelfTitles.push(title) : ""
     ))
 
     // Create shelves object. Key: ShelfTitle, Value: Array(Books)
