@@ -89,6 +89,7 @@ class BooksApp extends React.Component {
         this.setState(state => ({
           books: state.books.concat([ _bookCopy ])
         }))
+        this.setState({ shelves: this.getBookShelves(this.state.books) })
         // Notification for adding book to library
         this._addNotification(`Successfully added ${book.title} to your libraries "${helper.toTitleCase(shelf)}" shelf.`)
       }
@@ -114,6 +115,7 @@ class BooksApp extends React.Component {
               this.updateShelf(book, shelf)
               history.push('/')
             }}
+            books={ this.state.books }
           />
         )}/>
         <NotificationSystem ref="notificationSystem" />

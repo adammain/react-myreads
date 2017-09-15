@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
+import * as _ from "lodash"
 import * as BooksAPI from "./BooksAPI"
 import Book from "./Book"
 
 class Search extends Component {
+
   static propTypes = {
-    onSelectShelf: PropTypes.func.isRequired
+    onSelectShelf: PropTypes.func.isRequired,
+    books: PropTypes.array.isRequired
   }
 
   state = {
@@ -32,6 +35,12 @@ class Search extends Component {
     this.setState({ query: "" })
   }
 
+  // If a book in results is on shelf, display that book (for button UI)
+  checkForShelf(searchResult) {
+    const bookOnShelf = this.props.books.filter((book) => book.id === searchResult.id)
+    return _.isEmpty(bookOnShelf[0]) ? searchResult : bookOnShelf[0]
+  }
+
   renderResults() {
     const results = this.state.results
 
@@ -41,7 +50,7 @@ class Search extends Component {
       return (
         results.map((result, index) => (
           <li key={ index }>
-            <Book book={ result } onSelectShelf={ this.props.onSelectShelf } />
+            <Book book={ this.checkForShelf(result) }  onSelectShelf={ this.props.onSelectShelf } />
           </li>
         ))
       )
