@@ -27,7 +27,7 @@ class BookShelf extends Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">
           { helper.toTitleCase(this.props.shelf) }
-      </h2>
+        </h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             { this.renderBook() }
